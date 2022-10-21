@@ -1,0 +1,17 @@
+<Listado>
+	<Personaje>
+		<nombre></nombre>
+		<nivel></nivel>
+		<clase></clase>
+		<hitDie></hitDie>
+		<raza></raza>
+		<estadisticas>
+			<fuerza></fuerza>
+			<destreza></destreza>
+			<constitucion></constitucion>
+			<inteligencia></inteligencia>
+			<sabiduria></sabiduria>
+			<carisma></carisma>
+		</estadisticas>
+	</Personaje>
+	
