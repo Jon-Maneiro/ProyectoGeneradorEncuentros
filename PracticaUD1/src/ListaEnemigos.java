@@ -40,8 +40,8 @@ public class ListaEnemigos implements Serializable {
              * Nombre, cadena de 50 caracteres, 100 Bytes
              * Tipo, cadena de 11 caracteres, 22 bytes
              * CR, long de 8 bytes
-             * XP, int de 8 bytes
-             * Total, 142 bytes
+             * XP, int de 4 bytes
+             * Total, 138 bytes
              */
             RandomAccessFile fichero = new RandomAccessFile(fEnemigos, "rw");
             int id;
@@ -88,8 +88,8 @@ public class ListaEnemigos implements Serializable {
          * Nombre, cadena de 50 caracteres, 100 Bytes
          * Tipo, cadena de 11 caracteres, 22 bytes
          * CR, long de 8 bytes
-         * XP, int de 8 bytes
-         * Total, 142 bytes
+         * XP, int de 4 bytes
+         * Total, 138 bytes
          */
         File file = new File("enemigos.dat");
         RandomAccessFile fichero = new RandomAccessFile(file, "rw");
@@ -97,7 +97,7 @@ public class ListaEnemigos implements Serializable {
 
         //Primero hay que sacar el ID correspondiente al monstruo
         long longitud = fichero.length();
-        fichero.seek(longitud - 142);//Aqui hay una posible zona de bug, checkear
+        fichero.seek(longitud - 138);//Aqui hay una posible zona de bug, checkear
         int id = fichero.readInt() + 1;//Tenemos el id?¿
 
 
@@ -156,8 +156,8 @@ public class ListaEnemigos implements Serializable {
                          * Nombre, cadena de 50 caracteres, 100 Bytes
                          * Tipo, cadena de 11 caracteres, 22 bytes
                          * CR, long de 8 bytes
-                         * XP, int de 8 bytes
-                         * Total, 142 bytes
+                         * XP, int de 4 bytes
+                         * Total, 138 bytes
                          */
 
                         fichero.writeInt(contid);

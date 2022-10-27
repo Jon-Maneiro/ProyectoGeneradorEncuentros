@@ -15,7 +15,7 @@
     </option>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/src/CalculadorEnemigos.java" root0="FORCE_HIGHLIGHTING" />
@@ -45,10 +45,11 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/8FDAM08/Desktop/EjerciciosKEKW/EjerciciosDAM3/AD/PracticaUD1/librerias/kxml2-2.3.0.jar&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/8FDAM08/Desktop/Proyecto1AD/ProyectoGeneradorEncuentros/PracticaUD1&quot;,
     &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;project.propVCSSupport.DirectoryMappings&quot;
   }
 }</component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -63,6 +64,8 @@
       <workItem from="1665765235762" duration="10857000" />
       <workItem from="1666283742457" duration="4904000" />
       <workItem from="1666373952160" duration="6888000" />
+      <workItem from="1666381661986" duration="144000" />
+      <workItem from="1666888524995" duration="3208000" />
     </task>
     <servers />
   </component>
