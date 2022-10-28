@@ -41,6 +41,13 @@ public class CalculadorEnemigos {
 
     private long crMaximo;//0.
 
+    /**
+     * Constructor lleno de la clase CalculadorEnemigos
+     * @param dificultad Dificultad del encuentro, de 1 a 4
+     * @param numeroJugadores Numero de jugadores que participan en el encuentro
+     * @param nivelJugadores Nivel de los jugadores que participan en el encuentro
+     * @param crMaximo Desafio maximo de los monstruos
+     */
     public CalculadorEnemigos(int dificultad, int numeroJugadores, int nivelJugadores, long crMaximo) {
         this.dificultad = dificultad;
         this.numeroJugadores = numeroJugadores;
@@ -49,12 +56,19 @@ public class CalculadorEnemigos {
         llenarMap();
     }
 
+    /**
+     * Metodo que devuelve una lista de enemigos calculada mediante otros metodos
+     * @return
+     */
     public ListaEnemigos calc () {
         ListaEnemigos enemigos = new ListaEnemigos();
         CalcularEncuentro(enemigos);
         return enemigos;
     }
 
+    /**
+     * Llenado del Map de valores por defecto de la experiencia por nivel de un personaje para un encuentro facil
+     */
     private void llenarMap(){
         xpBase.put(1,25);
         xpBase.put(2,50);
@@ -78,6 +92,12 @@ public class CalculadorEnemigos {
         xpBase.put(20,2800);
     }
 
+    /**
+     * Calculo del encuentro, eligiendo monstruos al azar segun calculos hechos dentro.
+     * Se calcula la experiencia total del encuentro teniendo en cuenta, nivel y numero de jugadores,
+     * además de la dificultad del encuentro
+     * @param enemigos Lista de enemigos de la cual se extraen datos
+     */
     private void CalcularEncuentro(ListaEnemigos enemigos){
         //Primero hay que calcular el pool de experiencia que tenemos disponible
         int xpTotal = xpBase.get(nivelJugadores) * dificultad * numeroJugadores;

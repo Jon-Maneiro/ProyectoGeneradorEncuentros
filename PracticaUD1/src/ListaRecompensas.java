@@ -1,3 +1,5 @@
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -11,15 +13,42 @@ import java.util.Iterator;
 public class ListaRecompensas implements Serializable{
 
     private ArrayList<Recompensa> recompensas = new ArrayList<>();
-    static int oroEntregable;
+    @XStreamAlias("oroEntregable")
+    @XStreamAsAttribute()
+    private int oroEntregable;
+
+    /**
+     * Constructor de la clase ListaRecompensas con opcion a llenar la lista de recompensas de la instancia
+     * @param llenar boolean llenar o no la lista
+     */
     public ListaRecompensas(boolean llenar) {
         if (llenar == true) {
             llenarListaRecompensas();
         }
     }
 
-    public ListaRecompensas(){};
+    /**
+     * Constructor vacio de ListaRecompensas
+     */
+    public ListaRecompensas(){}
 
+    /**
+     * Saca por pantalla las recompensas de la instancia
+     */
+    public void ListarRecompensas(){
+        for(Recompensa re: recompensas){
+            System.out.println("-----------");
+            System.out.println("Id: " + re.getId() + "Nombre: " + re.getNombre() + "Tipo: " + re.getTipo()
+                    + "Rareza: " + re.getRareza());
+            System.out.println("-----------");
+        }
+    };
+
+    /**
+     * Devuelve una lista de recompensas de la rareza indicada
+     * @param rareza la rareza necesaria(1-6)
+     * @return ArrayList de Recompensa con las recompensas filtradas
+     */
     public ArrayList<Recompensa> filtrarRareza(int rareza){
         ArrayList<Recompensa> rarezas = new ArrayList<>();
         for(int x = 0; x < recompensas.size(); x++){
@@ -33,7 +62,8 @@ public class ListaRecompensas implements Serializable{
 
 
     /**
-     * Llena la lista de recompensas de un .dat que puede llenarse con más datos
+     * Llena la lista de recompensas  de la instancia con las de recompensas.dat
+     * Si el archivo no existe, se llama al excel y se crea
      */
     public void llenarListaRecompensas() {
         try {
@@ -88,7 +118,11 @@ public class ListaRecompensas implements Serializable{
     }
 
     /**
-     * Posibilidad de insertar una nueva recompensa en recompensas.dat
+     * Se inserta una nueva recompensa en recompensas.dat
+     * @param nombre Nombre del objeto
+     * @param tipo tipo del objeto
+     * @param rareza rareza del objeto(1-6)
+     * @throws IOException
      */
     public void insertarNuevaRecompensa(String nombre, String tipo, int rareza) throws IOException {
         /**
@@ -120,6 +154,11 @@ public class ListaRecompensas implements Serializable{
         recompensas.add(new Recompensa(id,nombre,tipo,rareza));
     }
 
+    /**
+     * Se lee el excel de recompensas y se vuelcan los datos en recompensas.dat
+     * @param archivo el archivo recompensas.dat
+     * @return el archivo recompensas.dat
+     */
     private File leerExcel(File archivo) {
         File data = archivo;
         try {
@@ -184,7 +223,12 @@ public class ListaRecompensas implements Serializable{
         }
         return archivo;
     }
-
+    /**
+     * Funcion de utilidad para fijar la longitud de un String
+     * @param texto texto que se quiere tratar
+     * @param longitud longitud maxima de ese texto
+     * @return un String cortado o extendido con espacios en blanco hasta la longitud elegida
+     */
     private String obtenerStringCompleto(String texto, int longitud) {
         String modif = texto;
         if (modif.length() < longitud) {
@@ -198,22 +242,42 @@ public class ListaRecompensas implements Serializable{
         return modif;
     }
 
+    /**
+     * Añade una recompensa a la lista de recompensas de la instancia
+     * @param recompensa Recompensa a añadir
+     */
     public void add(Recompensa recompensa){
         recompensas.add(recompensa);
     }
 
+    /**
+     * Devuelve el oroEntregable asignado a la ListaRecompensas instanciada
+     * @return int oroEntregable
+     */
     public int getOroEntregable() {
         return oroEntregable;
     }
 
+    /**
+     * Fija el oroEntregable asignado a la ListaRecompensas instanciada
+     * @param oroEntregable int con el oro a entregar
+     */
     public void setOroEntregable(int oroEntregable) {
-        ListaRecompensas.oroEntregable = oroEntregable;
+        this.oroEntregable = oroEntregable;
     }
 
+    /**
+     * Devuelve la lista de recompensas de las clase instanciada
+     * @return ArrayList con las recompensas de la clase
+     */
     public ArrayList<Recompensa> getRecompensas() {
         return recompensas;
     }
 
+    /**
+     * Fija el ArrayList de recompensas de la clase instanciada
+     * @param recompensas ArrayList de Recompensa a instanciar
+     */
     public void setRecompensas(ArrayList<Recompensa> recompensas) {
         recompensas = recompensas;
     }

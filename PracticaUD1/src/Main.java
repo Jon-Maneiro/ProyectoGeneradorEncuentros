@@ -20,6 +20,11 @@ public class Main {
 
     static ListadoPersonajes personajes = new ListadoPersonajes(true);
 
+    /**
+     * Metodo principal de la ejecucion
+     * @param args
+     * @throws InterruptedException
+     */
     public static void main(String[] args) throws InterruptedException {
 
         System.out.println("--HOLA--");
@@ -43,7 +48,12 @@ public class Main {
                     menuEncuentros = menuEncuentros();
                     switch(menuEncuentros){
                         case 1://Generar encuentro
+                            try {
                                 escribirEncuentroAXML(generacionDeEncuentro());
+                            } catch (FileNotFoundException e) {
+                                System.out.println("No se ha encontrado el archivo, no debería de salir este error. ");
+                                //throw new RuntimeException(e);
+                            }
                             break;
 
                         case 2://Visualizar Encuentros
@@ -75,7 +85,12 @@ public class Main {
                                 //throw new RuntimeException(e);
                             }
                             break;
-
+                        case 5://Listar Enemigos
+                            enemigos.ListarEnemigos();
+                            break;
+                        case 6://Listar Recompensas
+                            recompensas.ListarRecompensas();
+                            break;
                         case 0://Salir
                             salir = true;
                             break;
@@ -120,6 +135,10 @@ public class Main {
         System.out.println("..Cerrando programa..");
     }
 
+    /**
+     * Menu principal donde se escoje que se desea hacer, Encuentros o Personajes
+     * @return int indicador
+     */
     public static int menuPrincipal(){
         boolean correcto = false;
         int selec = -1;
@@ -128,12 +147,12 @@ public class Main {
             System.out.println("¿Que deseas hacer?");
             System.out.println("1 - Encuentros");
             System.out.println("2 - Personajes");
-            System.out.println("3 - WIP - Informacion");
+            //System.out.println("3 - WIP - Informacion");
             Scanner sc = new Scanner(System.in);
             String respuesta = sc.nextLine();
             if (isInt(respuesta)){
                 selec = Integer.parseInt(respuesta);
-                if(selec >= 0 && selec <= 3){
+                if(selec >= 0 && selec <= 2){
                     correcto = true;
                 }else {
                     System.out.println("Numeros del 1 al 3(Con el 0 para salir) porfa");
@@ -145,6 +164,10 @@ public class Main {
         return selec;
     }
 
+    /**
+     * Menu para escoger opcion a la hora de interactuar con las diferentes variables de los encuentros
+     * @return int indicador
+     */
     public static int menuEncuentros(){
         boolean correcto = false;
         int selec = -1;
@@ -155,14 +178,18 @@ public class Main {
             System.out.println("2 - Listar Encuentros generados");
             System.out.println("3 - Añadir un nuevo enemigo");
             System.out.println("4 - Añadir una nueva recompensa");
+            System.out.println("5 - Listar Enemigos");
+            System.out.println("6 - Listar Recompensas");
+            System.out.println("Cualquiera de las listas es enorme y te vas a pasar el dia haciendo Scroll" +
+                    ",creeme, funcionan");
             Scanner sc = new Scanner(System.in);
             String respuesta = sc.nextLine();
             if (isInt(respuesta)){
                 selec = Integer.parseInt(respuesta);
-                if(selec >= 0 && selec <= 4){
+                if(selec >= 0 && selec <= 6){
                     correcto = true;
                 }else {
-                    System.out.println("Numeros del 1 al 4(Con el 0 para salir) porfa");
+                    System.out.println("Numeros del 1 al 6(Con el 0 para salir) porfa");
                 }
             }else{
                 System.out.println("Parece que el dato introducido es incorrecto, vuelve a probar");
@@ -171,6 +198,10 @@ public class Main {
         return selec;
     }
 
+    /**
+     * Menu para escoger como interactuar con personajes
+     * @return int indicador
+     */
     public static int menuPersonajes(){
         boolean correcto = false;
         int selec = -1;
@@ -195,6 +226,11 @@ public class Main {
         return selec;
     }
 
+    /**
+     * Se comprueba si la variable suministrada se puede convertir a int
+     * @param check String a comprobar
+     * @return boolean yes/no
+     */
     public static boolean isInt(String check){
         try{
             Integer.parseInt(check);
@@ -203,6 +239,11 @@ public class Main {
             return false;
         }
     }
+    /**
+     * Se comprueba si la variable suministrada se puede convertir a long
+     * @param check String a comprobar
+     * @return boolean yes/no
+     */
     public static boolean isLong(String check){
         try{
             Long.parseLong(check);
@@ -211,6 +252,11 @@ public class Main {
             return false;
         }
     }
+
+    /**
+     * Metodo para hacer preguntas que requieran un (Y)es / (N)o por parte del usuario
+     * @return true o false
+     */
     public static boolean yesNo(){
         Scanner sc = new Scanner(System.in);
         String check = "";
@@ -231,6 +277,13 @@ public class Main {
 
         return resp;
     }
+
+    /**
+     * Metodo de utilidad para devolver el texto suministrado con la longitud requerida
+     * @param texto el texto a modificar
+     * @param longitud la longitud deseada
+     * @return texto con longitud deseada
+     */
     private static String obtenerStringCompleto(String texto, int longitud) {
         String modif = texto;
         if (modif.length() < longitud) {
@@ -246,6 +299,9 @@ public class Main {
 
     //_------------------------------------------------------------------------------------------------------------_
 
+    /**
+     * Se piden datos para posteriormente subir de nivel a un personaje con su propio metodo
+     */
     public static void subirNivel(){
 
         Scanner sc = new Scanner(System.in);
@@ -253,9 +309,9 @@ public class Main {
         boolean correcto = false;
         int id = 0;
 
-        System.out.println("Introduce el id del personaje al que quieres subirle el nivel");
+
         while(!correcto){
-            System.out.println("Introduce la vida maxima actual del personaje");
+            System.out.println("Introduce el id del personaje al que quieres subirle el nivel");
             check = sc.nextLine();
             if(isInt(check)){
                 boolean temp = false;
@@ -282,6 +338,10 @@ public class Main {
         }
 
     }
+
+    /**
+     * Se introducen los datos necesarios para crear un personaje
+     */
     public static void crearPersonaje(){
 
         Scanner sc = new Scanner(System.in);
@@ -383,6 +443,11 @@ public class Main {
         }
     }
 
+    /**
+     * Metodo que se utiliza para no repetir codigo a la hora de introducir las estadisticas de un personaje
+     * @param nombre nombre de la estadistica a introducir
+     * @return valor introducido
+     */
     public static int recibirEstadistica(String nombre){
         Scanner sc = new Scanner(System.in);
         String check = "";
@@ -407,6 +472,10 @@ public class Main {
         return stat;
     }
 
+    /**
+     * Se piden al usuario las variables necesarias para gestionar la creacion de un encuentro a medida
+     * @return Encuentro generado
+     */
     public static Encuentro generacionDeEncuentro(){
 
         Scanner sc = new Scanner(System.in);
@@ -493,11 +562,24 @@ public class Main {
     }
 
 
-
-    public static void escribirEncuentroAXML(Encuentro encuentro) {
+    /**
+     * Plasma un encuentro al XML Encuentros.xml. Si ya existe un xml, primero lee todos, añade el nuevo, y vuelca la lista completa
+     * @param encuentro el encuentro a insertar
+     * @throws FileNotFoundException
+     */
+    public static void escribirEncuentroAXML(Encuentro encuentro) throws FileNotFoundException {
         ListaEncuentros encuentros = new ListaEncuentros();
         encuentros.add(encuentro);
+        File file = new File("Encuentros.xml");
+        if(file.exists()) {
+            ListaEncuentros temp = leerEncuentrosDeXML();
+
+        for(Encuentro enc : temp.getEncuentros()){
+            encuentros.add(enc);
+        }
+        }
         try {
+
             XStream xstream = new XStream();
             xstream.addPermission(AnyTypePermission.ANY);
             xstream.alias("Encuentros", ListaEncuentros.class);
@@ -506,6 +588,7 @@ public class Main {
             xstream.alias("enemigo", Enemigo.class);
             xstream.alias("Recompensas", ListaRecompensas.class);
             xstream.alias("recompensa", Recompensa.class);
+            xstream.processAnnotations(ListaRecompensas.class);
 
             //xstream.addImplicitCollection(ListaEncuentros.class, "lista");
 
@@ -517,6 +600,11 @@ public class Main {
 
     }
 
+    /**
+     * Devuelve una ListaEncuentros con los encuentros del XML
+     * @return Lista encuentros con los encuentros del XML
+     * @throws FileNotFoundException
+     */
     public static ListaEncuentros leerEncuentrosDeXML() throws FileNotFoundException {
 
 
@@ -528,6 +616,7 @@ public class Main {
         xstream.alias("enemigo", Enemigo.class);
         xstream.alias("Recompensas", ListaRecompensas.class);
         xstream.alias("recompensa", Recompensa.class);
+        xstream.processAnnotations(ListaRecompensas.class);
         //xstream.addImplicitCollection(ListaEncuentros.class, "lista");
 
         FileInputStream fichero = new FileInputStream("Encuentros.xml");
@@ -538,6 +627,10 @@ public class Main {
         return encuentros;
     }
 
+    /**
+     * Saca por pantalla la ListaEncuentros suministrada
+     * @param listaEncuentros ListaEncuentros a sacar por pantalla
+     */
     public static void presentarEncuentros(ListaEncuentros listaEncuentros){
 
         List<Encuentro> encuentros = new ArrayList<Encuentro>();
@@ -547,6 +640,7 @@ public class Main {
 
         while(iteradorEncuentros.hasNext()){
             Encuentro encounter = (Encuentro) iteradorEncuentros.next();
+            System.out.println("_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_");
             System.out.println("Numero de Jugadores: " + encounter.getNumeroPJ());
             System.out.println("Nivel de Jugadores: " + encounter.getNivelPJ());
 
@@ -588,7 +682,10 @@ public class Main {
 
     }
 
-
+    /**
+     * Pide datos por pantalla para introducir una recompensa
+     * @throws IOException
+     */
     public static  void insertarRecompensa() throws IOException {
         /**
          * Id, int de 4 bytes
@@ -623,7 +720,7 @@ public class Main {
         while (!correcto) {
             try {
                 rareza = Integer.parseInt(sc.nextLine());
-                if (rareza <= 1 && 6 >= rareza) {
+                if (rareza >= 1 && 6 >= rareza) {
                     correcto = true;
                 } else {
                     System.out.println("Parece que no has introducido un numero valido");
@@ -643,6 +740,10 @@ public class Main {
 
     }
 
+    /**
+     * Pide datos por pantalla para introducir un enemigo
+     * @throws IOException
+     */
     public static  void insertarEnemigo() throws IOException {
         /**
          * Id, int de 4 bytes
@@ -678,7 +779,7 @@ public class Main {
         while (!correcto) {
             try {
                 cr = Long.parseLong(sc.nextLine());
-                if (cr <= 0 && 20 >= cr) {
+                if (cr >= 0 && 20 >= cr) {
                     correcto = true;
                 } else {
                     System.out.println("Parece que no has introducido un numero valido");
@@ -711,17 +812,6 @@ public class Main {
 
     }
 
-    /**
-     * CREAR CLASE GENERICA PARA FUNCIONES GENERICAS
-     *
-     * @param texto
-     * @param longitud
-     * @return
-     */
-
-    /**
-     *
-     */
 
 
 }

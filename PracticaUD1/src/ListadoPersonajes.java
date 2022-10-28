@@ -3,12 +3,16 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class ListadoPersonajes implements Serializable {
-    private ArrayList<Personaje> personajes;
+    private ArrayList<Personaje> personajes = new ArrayList<Personaje>();
     private boolean llenar;
     /**
      * 3 Strings de 50 chars - 100 cada uno, 300 bytes
      * 10 ints - 4 cada uno - 40 bytes
      * TOTAL 340 Bytes
+     */
+    /**
+     * Constructor de la clase ListadoPersonajes, que permite elegir si se quiere llenar o no la lista con enemigos
+     * @param llenar boolean llenar o no la lista de enemigos para la instancia
      */
     public ListadoPersonajes(boolean llenar) {
         if(llenar == true){
@@ -16,8 +20,14 @@ public class ListadoPersonajes implements Serializable {
         }
     }
 
+    /**
+     * Constructor vacio de ListadoPersonajes
+     */
     public ListadoPersonajes(){};
 
+    /**
+     * Lee el documento personajes.dat y vuelca los datos en un ArrayList
+     */
     public void llenarListaPersonajes(){
         /**
          * 3 Strings de 50 chars - 100 cada uno, 300 bytes
@@ -88,7 +98,11 @@ public class ListadoPersonajes implements Serializable {
         }
     }
 
-
+    /**
+     * Inserta un nuevo personaje al documento personajes.dat
+     * @param pj Personaje personaje
+     * @throws IOException
+     */
     public void insertarNuevoPersonaje(Personaje pj) throws IOException {
         /**
          * 3 Strings de 50 chars - 100 cada uno, 300 bytes
@@ -101,17 +115,17 @@ public class ListadoPersonajes implements Serializable {
         //Primero hay que sacar el ultimo id para tenerlo
         if(fichero.length() == 0){
             id = 1;
-        }else{
+        }else {
             long longitud = fichero.length();
             fichero.seek(longitud - 340);
             id = fichero.readInt() + 1;
 
             fichero.seek(longitud);
-
+        }
             fichero.writeInt(id);
-            fichero.writeChars(pj.getNombre());
-            fichero.writeChars(pj.getClase());
-            fichero.writeChars(pj.getRaza());
+            fichero.writeChars(obtenerStringCompleto(pj.getNombre(),50));
+            fichero.writeChars(obtenerStringCompleto(pj.getClase(),50));
+            fichero.writeChars(obtenerStringCompleto(pj.getRaza(),50));
             fichero.writeInt(pj.getNivel());
             fichero.writeInt(pj.getHitDie());
             fichero.writeInt(pj.getVida());
@@ -129,14 +143,16 @@ public class ListadoPersonajes implements Serializable {
 
         }
 
-    }
-
+    /**
+     * Lista los personajes existentes en la instancia de la clase desde la que se lanza
+     */
     public void listarPersonajes(){
         for(Personaje pj: personajes){
             System.out.println("------------------------");
             System.out.println("Id:" + pj.getId());
-            System.out.println("Nombre: " + pj.getNombre() + "Raza: " + pj.getRaza() + " Clase: " + pj.getClase());
-            System.out.println("HitDie:" + pj.getHitDie() + "Vida: " + pj.getVida());
+            System.out.println("Nivel: "+pj.getNivel());
+            System.out.println("Nombre: " + pj.getNombre() + " Raza: " + pj.getRaza() + " Clase: " + pj.getClase());
+            System.out.println("HitDie:" + pj.getHitDie() + " Vida: " + pj.getVida());
             System.out.println("FUERZA:"+pj.getStr());
             System.out.println("DESTREZA:" + pj.getDex());
             System.out.println("CONSTITUCION:" + pj.getCon());
@@ -146,6 +162,10 @@ public class ListadoPersonajes implements Serializable {
         }
     }
 
+    /**
+     * Subir el nivel del personaje del cual se pasa el ID
+     * @param id el id del personaje al cual subirle el nivel
+     */
     public void subirNivel(int id){
         try {
             //Lo hago con el fichero por practicar realmente
@@ -175,7 +195,7 @@ public class ListadoPersonajes implements Serializable {
                     clase = new char[50];
                     raza = new char[50];
                     fichero.seek(posicionlectura);
-                    pj.setId(id);
+                    pj.setId(fichero.readInt());
                     for (int x = 0; x < 50; x++) {
                         nombre[x] = fichero.readChar();
                     }
@@ -234,14 +254,47 @@ public class ListadoPersonajes implements Serializable {
             throw new RuntimeException(e);
         }
     }
+
+    /**
+     * Devuelve una lista de los personajes en la instancia
+     * @return personajes en la instancia
+     */
     public ArrayList<Personaje> getPersonajes() {
         return personajes;
     }
 
+    /**
+     * Fija la lista de personajes de la instancia
+     * @param personajes ArrayList con los personajes a introducir
+     */
     public void setPersonajes(ArrayList<Personaje> personajes) {
         this.personajes = personajes;
     }
+
+    /**
+     * Añade un personaje a la lista de la instancia
+     * @param personaje Personaje a introducir
+     */
     public void add(Personaje personaje){
         personajes.add(personaje);
+    }
+
+    /**
+     * Funcion de utilidad para fijar la longitud de un String
+     * @param texto texto que se quiere tratar
+     * @param longitud longitud maxima de ese texto
+     * @return un String cortado o extendido con espacios en blanco hasta la longitud elegida
+     */
+    private static String obtenerStringCompleto(String texto, int longitud) {
+        String modif = texto;
+        if (modif.length() < longitud) {
+            while (modif.length() < longitud) {
+                modif = modif + " ";
+            }
+        } else if (modif.length() > longitud) {
+            modif = modif.substring(0, (longitud - 1));
+        }
+
+        return modif;
     }
 }

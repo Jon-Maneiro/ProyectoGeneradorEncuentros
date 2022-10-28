@@ -12,13 +12,31 @@ public class ListaEnemigos implements Serializable {
 
     private ArrayList<Enemigo> enemigos = new ArrayList<>();
 
+    /**
+     * Constructor de la clase ListaEnemigos con opcion a llenar la lista de enemigos
+     * @param llenar boolean llenar o no la lista de enemigos
+     */
     public ListaEnemigos(boolean llenar) {
         if (llenar == true) {
             llenarListaEnemigos();
         }
     }
 
-    public ListaEnemigos() {
+    /**
+     * Constructor vacio de ListaEnemigos
+     */
+    public ListaEnemigos(){}
+
+    /**
+     * Saca los enemigos de la instancia por pantalla
+     */
+    public void ListarEnemigos() {
+        for(Enemigo en: enemigos){
+            System.out.println("-----------");
+            System.out.println("Id: " + en.getId() + "Nombre: " + en.getNombre() + "Tipo: " + en.getTipo()
+            + "CR: " + en.getCr() + "XP: " + en.getXp());
+            System.out.println("-----------");
+        }
     }
 
 
@@ -119,6 +137,12 @@ public class ListaEnemigos implements Serializable {
         enemigos.add(new Enemigo(id, nombre, tipo, cr,xp));
     }
 
+    /**
+     * Se lee el excel y se vuelcan los datos en el archivo enemigos.dat
+     * Esto actua como primer llenado con datos del archivo para contar con una base
+     * @param archivo El fichero enemigos.dat
+     * @return El fichero enemigos.dat
+     */
     private File leerExcel(File archivo) {
         File data = archivo;
         try {
@@ -186,12 +210,20 @@ public class ListaEnemigos implements Serializable {
         } catch (IOException e) {
             throw new RuntimeException(e);
         } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("A");
+            System.out.println("Esto es mi punto de vergüenza, si ves esto, es un error que no he podido solucionar.");
+            System.out.println("Solo debería salir si cargas los datos desde el excel. No he logrado encontrar porque es.");
+            System.out.println("Si te interesa, ve a 'ListaEnemigos' en la linea 152");
+            //e.printStackTrace();
+            //System.out.println("A");
         }
         return archivo;
     }
-
+    /**
+     * Funcion de utilidad para fijar la longitud de un String
+     * @param texto texto que se quiere tratar
+     * @param longitud longitud maxima de ese texto
+     * @return un String cortado o extendido con espacios en blanco hasta la longitud elegida
+     */
     private String obtenerStringCompleto(String texto, int longitud) {
         String modif = texto;
         if (modif.length() < longitud) {
@@ -205,14 +237,26 @@ public class ListaEnemigos implements Serializable {
         return modif;
     }
 
+    /**
+     * Añade un enemigo a la lista de la instancia
+     * @param enemigo Enemigo a añadir
+     */
     public  void add(Enemigo enemigo) {
         enemigos.add(enemigo);
     }
 
+    /**
+     * Devuelve la lista de enemigos de la instancia
+     * @return ArrayList con los enemigos de la instancia
+     */
     public  ArrayList<Enemigo> getEnemigos() {
         return enemigos;
     }
 
+    /**
+     * Fija la lista de enemigos de la instancia
+     * @param enemigos Lista de enemigos a fijar
+     */
     public  void setEnemigos(ArrayList<Enemigo> enemigos) {
         enemigos = enemigos;
     }
