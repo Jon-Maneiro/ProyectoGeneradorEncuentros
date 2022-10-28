@@ -4,14 +4,19 @@ import java.util.Random;
 
 public class ListadoPersonajes implements Serializable {
     private ArrayList<Personaje> personajes;
+    private boolean llenar;
     /**
      * 3 Strings de 50 chars - 100 cada uno, 300 bytes
      * 10 ints - 4 cada uno - 40 bytes
      * TOTAL 340 Bytes
      */
-    public ListadoPersonajes(ArrayList<Personaje> personajes) {
-        this.personajes = personajes;
+    public ListadoPersonajes(boolean llenar) {
+        if(llenar == true){
+            llenarListaPersonajes();
+        }
     }
+
+    public ListadoPersonajes(){};
 
     public void llenarListaPersonajes(){
         /**
@@ -22,8 +27,8 @@ public class ListadoPersonajes implements Serializable {
         try{
             File fPj = new File("personajes.dat");
             if(!fPj.exists()){
-                System.out.println("Parece que aun no existe ningun personaje...");
-                System.out.println("¿Porqué no vas a crear uno?");
+                //System.out.println("Parece que aun no existe ningun personaje...");
+                //System.out.println("¿Porqué no vas a crear uno?");
             }else{
                 RandomAccessFile fichero = new RandomAccessFile(fPj,"rw");
                 int id;
@@ -163,7 +168,7 @@ public class ListadoPersonajes implements Serializable {
                 long longitud = fichero.length();
                 long posicionlectura = 340 *(id -1);
 
-                if(posicionlectura < longitud){
+                if(posicionlectura > longitud){
                     System.out.println("Ese personaje no existe");
                 }else{
                     nombre = new char[50];

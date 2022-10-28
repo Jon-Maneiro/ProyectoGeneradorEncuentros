@@ -10,10 +10,10 @@ import java.util.Iterator;
 
 public class ListaRecompensas implements Serializable{
 
-    static ArrayList<Recompensa> recompensas = new ArrayList<>();
+    private ArrayList<Recompensa> recompensas = new ArrayList<>();
     static int oroEntregable;
     public ListaRecompensas(boolean llenar) {
-        if (llenar) {
+        if (llenar == true) {
             llenarListaRecompensas();
         }
     }
@@ -202,19 +202,19 @@ public class ListaRecompensas implements Serializable{
         recompensas.add(recompensa);
     }
 
-    public static int getOroEntregable() {
+    public int getOroEntregable() {
         return oroEntregable;
     }
 
-    public static void setOroEntregable(int oroEntregable) {
+    public void setOroEntregable(int oroEntregable) {
         ListaRecompensas.oroEntregable = oroEntregable;
     }
 
-    public static ArrayList<Recompensa> getRecompensas() {
+    public ArrayList<Recompensa> getRecompensas() {
         return recompensas;
     }
 
-    public static void setRecompensas(ArrayList<Recompensa> recompensas) {
-        ListaRecompensas.recompensas = recompensas;
+    public void setRecompensas(ArrayList<Recompensa> recompensas) {
+        recompensas = recompensas;
     }
 }

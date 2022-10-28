@@ -4,9 +4,8 @@ public class CalculadorRecompensas {
 
     private ListaRecompensas recompensasL = new ListaRecompensas(true);
 
-    private ListaRecompensas recompensas = new ListaRecompensas(false);
 
-    private int crMaximoEncuentro;
+    private long crMaximoEncuentro;
 
     private int oroAEntregar;
 
@@ -45,17 +44,18 @@ public class CalculadorRecompensas {
      *
      * @param crMaximoEncuentro
      */
-    public CalculadorRecompensas(int crMaximoEncuentro) {
+    public CalculadorRecompensas(long crMaximoEncuentro) {
         this.crMaximoEncuentro = crMaximoEncuentro;
     }
 
     public ListaRecompensas calc() {
-        hacerCalculosDeRecompensas();
+        ListaRecompensas recompensas = new ListaRecompensas();
+        hacerCalculosDeRecompensas(recompensas);
         return recompensas;
     }
 
-    private void hacerCalculosDeRecompensas() {
-        //Esto va a ser un siwtch rarete
+    private void hacerCalculosDeRecompensas(ListaRecompensas recompensas) {
+        //Esto va a ser un switch rarete
         int rareza;
         int cantidadObjetos;
         switch ((0 <= crMaximoEncuentro && crMaximoEncuentro <= 4) ? rangos.ENTRE_0_Y_4 :
@@ -109,9 +109,9 @@ public class CalculadorRecompensas {
                     cantidadObjetos = 8;
                 } else if (rareza == 4) {//very rare
                     cantidadObjetos = (int) ((Math.random() * (6 - 4)) + 4);
-                } else if(rareza == 5){//Legendary
+                } else if (rareza == 5) {//Legendary
                     cantidadObjetos = (int) ((Math.random() * (4 - 3)) + 3);
-                }else{
+                } else {
                     cantidadObjetos = 1;
                 }
                 for (int x = 0; x < cantidadObjetos; x++) {
@@ -126,7 +126,7 @@ public class CalculadorRecompensas {
     private Recompensa objetoAleatorio(int rareza) {
         ArrayList<Recompensa> recompensasPorRareza = recompensasL.filtrarRareza(rareza);
 
-        Recompensa objetoElegido = recompensasPorRareza.get((int) Math.floor(Math.random() * recompensasPorRareza.size() - 1));
+        Recompensa objetoElegido = recompensasPorRareza.get((int) (1 + (Math.random() * (recompensasPorRareza.size() - 1))));
 
         return objetoElegido;
 

@@ -2,7 +2,7 @@ import java.io.Serializable;
 
 public class Encuentro implements Serializable {
     /**
-     * Esta clase solo debería usarse para pasar los entre el programa y XML
+     * Esta clase solo debería usarse para pasar los encuentros entre el programa y XML
      * todas las demás operaciones deberán hacerse instanciando un objeto
      * de la clase necesaria.
      */

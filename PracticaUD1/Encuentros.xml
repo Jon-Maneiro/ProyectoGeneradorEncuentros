@@ -1,0 +1,200 @@
+<Encuentros>
+  <encuentros>
+    <encuentro>
+      <numeroPJ>4</numeroPJ>
+      <nivelPJ>5</nivelPJ>
+      <enemigos>
+        <enemigos>
+          <enemigo>
+            <id>514</id>
+            <nombre>Kobold Inventor                                   </nombre>
+            <tipo>Humanoid   </tipo>
+            <cr>0</cr>
+            <xp>50</xp>
+          </enemigo>
+          <enemigo>
+            <id>702</id>
+            <nombre>Rhinoceros                                        </nombre>
+            <tipo>Beast      </tipo>
+            <cr>2</cr>
+            <xp>450</xp>
+          </enemigo>
+          <enemigo>
+            <id>509</id>
+            <nombre>Knight                                            </nombre>
+            <tipo>Humanoid   </tipo>
+            <cr>3</cr>
+            <xp>700</xp>
+          </enemigo>
+          <enemigo>
+            <id>320</id>
+            <nombre>Fire snake                                        </nombre>
+            <tipo>Elemental  </tipo>
+            <cr>1</cr>
+            <xp>200</xp>
+          </enemigo>
+          <enemigo>
+            <id>820</id>
+            <nombre>Tendril Puppet                                    </nombre>
+            <tipo>Plant      </tipo>
+            <cr>2</cr>
+            <xp>450</xp>
+          </enemigo>
+          <enemigo>
+            <id>696</id>
+            <nombre>Red-Banded Line Spider                            </nombre>
+            <tipo>Beast      </tipo>
+            <cr>0</cr>
+            <xp>50</xp>
+          </enemigo>
+          <enemigo>
+            <id>894</id>
+            <nombre>Water Leaper                                      </nombre>
+            <tipo>Monstrosity</tipo>
+            <cr>4</cr>
+            <xp>1</xp>
+          </enemigo>
+          <enemigo>
+            <id>54</id>
+            <nombre>Apprentice Wizard                                 </nombre>
+            <tipo>Humanoid   </tipo>
+            <cr>0</cr>
+            <xp>50</xp>
+          </enemigo>
+          <enemigo>
+            <id>726</id>
+            <nombre>Sarcophagus Slime                                 </nombre>
+            <tipo>Undead     </tipo>
+            <cr>5</cr>
+            <xp>1</xp>
+          </enemigo>
+          <enemigo>
+            <id>649</id>
+            <nombre>Otyugh                                            </nombre>
+            <tipo>Aberration </tipo>
+            <cr>5</cr>
+            <xp>1</xp>
+          </enemigo>
+          <enemigo>
+            <id>119</id>
+            <nombre>Bouda                                             </nombre>
+            <tipo>Fiend      </tipo>
+            <cr>5</cr>
+            <xp>1</xp>
+          </enemigo>
+          <enemigo>
+            <id>141</id>
+            <nombre>Catoblepas                                        </nombre>
+            <tipo>Monstrosity</tipo>
+            <cr>5</cr>
+            <xp>1</xp>
+          </enemigo>
+          <enemigo reference="../enemigo[11]"/>
+          <enemigo>
+            <id>650</id>
+            <nombre>Owlbear                                           </nombre>
+            <tipo>Beast      </tipo>
+            <cr>0</cr>
+            <xp>10</xp>
+          </enemigo>
+          <enemigo>
+            <id>847</id>
+            <nombre>Twig Blight                                       </nombre>
+            <tipo>Plant      </tipo>
+            <cr>0</cr>
+            <xp>25</xp>
+          </enemigo>
+          <enemigo>
+            <id>581</id>
+            <nombre>Mindwitness                                       </nombre>
+            <tipo>Aberration </tipo>
+            <cr>5</cr>
+            <xp>1</xp>
+          </enemigo>
+          <enemigo>
+            <id>79</id>
+            <nombre>Bandit Lord                                       </nombre>
+            <tipo>Humanoid   </tipo>
+            <cr>4</cr>
+            <xp>1</xp>
+          </enemigo>
+          <enemigo>
+            <id>915</id>
+            <nombre>Wood Woad                                         </nombre>
+            <tipo>Plant      </tipo>
+            <cr>5</cr>
+            <xp>1</xp>
+          </enemigo>
+          <enemigo>
+            <id>690</id>
+            <nombre>Ravenala                                          </nombre>
+            <tipo>Plant      </tipo>
+            <cr>5</cr>
+            <xp>1</xp>
+          </enemigo>
+          <enemigo>
+            <id>940</id>
+            <nombre>Young Spinosaurus                                 </nombre>
+            <tipo>Beast      </tipo>
+            <cr>5</cr>
+            <xp>1</xp>
+          </enemigo>
+          <enemigo>
+            <id>7</id>
+            <nombre>Accursed Defiler                                  </nombre>
+            <tipo>Undead     </tipo>
+            <cr>4</cr>
+            <xp>1</xp>
+          </enemigo>
+          <enemigo reference="../enemigo[20]"/>
+          <enemigo>
+            <id>163</id>
+            <nombre>Clockwork Abomination                             </nombre>
+            <tipo>Construct  </tipo>
+            <cr>5</cr>
+            <xp>1</xp>
+          </enemigo>
+          <enemigo>
+            <id>946</id>
+            <nombre>Yuan-ti Mind Whisperer                            </nombre>
+            <tipo>Monstrosity</tipo>
+            <cr>4</cr>
+            <xp>1</xp>
+          </enemigo>
+          <enemigo>
+            <id>740</id>
+            <nombre>Sea Horse                                         </nombre>
+            <tipo>Beast      </tipo>
+            <cr>0</cr>
+            <xp>0</xp>
+          </enemigo>
+        </enemigos>
+      </enemigos>
+      <recompensas>
+        <recompensas>
+          <recompensa>
+            <id>10</id>
+            <nombre>Spell scroll (1st level)                          </nombre>
+            <tipo>scroll         </tipo>
+            <rareza>1</rareza>
+          </recompensa>
+          <recompensa>
+            <id>11</id>
+            <nombre>Spell scroll (cantrip)                            </nombre>
+            <tipo>scroll         </tipo>
+            <rareza>1</rareza>
+          </recompensa>
+          <recompensa>
+            <id>9</id>
+            <nombre>Potion of healing                                 </nombre>
+            <tipo>potion         </tipo>
+            <rareza>1</rareza>
+          </recompensa>
+          <recompensa reference="../recompensa"/>
+          <recompensa reference="../recompensa[2]"/>
+          <recompensa reference="../recompensa[3]"/>
+        </recompensas>
+      </recompensas>
+    </encuentro>
+  </encuentros>
+</Encuentros>

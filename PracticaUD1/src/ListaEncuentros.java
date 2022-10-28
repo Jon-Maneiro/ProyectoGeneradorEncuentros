@@ -2,7 +2,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class ListaEncuentros implements Serializable {
-    private ArrayList<Encuentro> encuentros;
+    private ArrayList<Encuentro> encuentros = new ArrayList<>();
 
     public ListaEncuentros(ArrayList<Encuentro> encuentro) {
         this.encuentros = encuentro;
@@ -10,11 +10,11 @@ public class ListaEncuentros implements Serializable {
 
     public ListaEncuentros(){}
 
-    public ArrayList<Encuentro> getEncuentro() {
+    public ArrayList<Encuentro> getEncuentros() {
         return encuentros;
     }
 
-    public void setEncuentro(ArrayList<Encuentro> encuentro) {
+    public void setEncuentros(ArrayList<Encuentro> encuentro) {
         this.encuentros = encuentro;
     }
 

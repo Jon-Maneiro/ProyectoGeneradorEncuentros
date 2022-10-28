@@ -10,10 +10,10 @@ import java.util.Random;
 
 public class ListaEnemigos implements Serializable {
 
-    static ArrayList<Enemigo> enemigos = new ArrayList<>();
+    private ArrayList<Enemigo> enemigos = new ArrayList<>();
 
     public ListaEnemigos(boolean llenar) {
-        if (llenar) {
+        if (llenar == true) {
             llenarListaEnemigos();
         }
     }
@@ -80,7 +80,12 @@ public class ListaEnemigos implements Serializable {
     }
 
     /**
-     * Posibilidad e insertar un enemigo nuevo en enemigos.dat
+     * Se inserta un nuevo enemigo en el .dat y se añade al arraylist de la ejecucion
+     * @param nombre nombre del enemigo
+     * @param tipo tipo de criatura
+     * @param cr clase de dificultad
+     * @param xp experiencia que otorga
+     * @throws IOException
      */
     public void insertarNuevoEnemigo(String nombre, String tipo, long cr, int xp) throws IOException {
         /**
@@ -200,15 +205,15 @@ public class ListaEnemigos implements Serializable {
         return modif;
     }
 
-    public static void add(Enemigo enemigo) {
+    public  void add(Enemigo enemigo) {
         enemigos.add(enemigo);
     }
 
-    public static ArrayList<Enemigo> getEnemigos() {
+    public  ArrayList<Enemigo> getEnemigos() {
         return enemigos;
     }
 
-    public static void setEnemigos(ArrayList<Enemigo> enemigos) {
-        ListaEnemigos.enemigos = enemigos;
+    public  void setEnemigos(ArrayList<Enemigo> enemigos) {
+        enemigos = enemigos;
     }
 }

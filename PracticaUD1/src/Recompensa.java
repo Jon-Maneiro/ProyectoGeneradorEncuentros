@@ -5,7 +5,7 @@ public class Recompensa implements Serializable {
     private int id;
     private String nombre;//Max 50 chars
     private String tipo;//Max 20 chars (Objeto magico, gema, pergamino.. etc)
-    private int rareza;//Pues cuanto dinero cuesta en monedas de oro. Minimo 1
+    private int rareza;//la rareza, comun, poco comun, raro, muy raro, legendario o artefacto
 
     public Recompensa(int id, String nombre, String tipo, int coste) {
         this.id = id;

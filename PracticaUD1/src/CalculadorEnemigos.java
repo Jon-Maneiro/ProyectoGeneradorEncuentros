@@ -33,22 +33,25 @@ public class CalculadorEnemigos {
      * Y claro, los monstruos posibles son otra movida, no escalan directamente
      * con los niveles de los personajes
      */
-    private static ListaEnemigos enemigos = new ListaEnemigos(false);
     private static ListaEnemigos enemigosL = new ListaEnemigos(true);
     private HashMap<Integer, Integer> xpBase = new HashMap<Integer,Integer>();//Esto hay que rellenarlo siempre no queda otra
     private int dificultad;//1,2,3,4
     private int numeroJugadores;
     private int nivelJugadores;//1-20
 
-    public CalculadorEnemigos(int dificultad, int numeroJugadores, int nivelJugadores) {
+    private long crMaximo;//0.
+
+    public CalculadorEnemigos(int dificultad, int numeroJugadores, int nivelJugadores, long crMaximo) {
         this.dificultad = dificultad;
         this.numeroJugadores = numeroJugadores;
         this.nivelJugadores = nivelJugadores;
+        this.crMaximo = crMaximo;
         llenarMap();
     }
 
     public ListaEnemigos calc () {
-        CalcularEncuentro();
+        ListaEnemigos enemigos = new ListaEnemigos();
+        CalcularEncuentro(enemigos);
         return enemigos;
     }
 
@@ -75,7 +78,7 @@ public class CalculadorEnemigos {
         xpBase.put(20,2800);
     }
 
-    private void CalcularEncuentro(){
+    private void CalcularEncuentro(ListaEnemigos enemigos){
         //Primero hay que calcular el pool de experiencia que tenemos disponible
         int xpTotal = xpBase.get(nivelJugadores) * dificultad * numeroJugadores;
         int xpRestante = xpTotal;
@@ -85,14 +88,14 @@ public class CalculadorEnemigos {
         //Para que no sea infinita por el hecho de no encontrar un enemigo que nos de la experiencia exacta que falta,
         //el bucle se hará 1000 veces, que son más que suficientes
 
-        int numeroMonstruosTotal = enemigosL.enemigos.size();
+        int numeroMonstruosTotal = enemigosL.getEnemigos().size();
 
         //Se coge un monstruo al azar, se mira que por cantidad de experiencia pueda entrar en el encuentro,
         //si cabe, se mete, si no, a otro, asi 1000 veces
         for(int x = 0;x<1000;x++){
-            Enemigo candidato = enemigosL.enemigos.get((int)Math.floor(Math.random()*numeroMonstruosTotal-1));
-            if(candidato.getXp() <= xpRestante){
-                enemigos.enemigos.add(candidato);
+            Enemigo candidato = enemigosL.getEnemigos().get((int)(1 + (Math.random() * (numeroMonstruosTotal-1) )));
+            if(candidato.getXp() <= xpRestante && candidato.getCr() <= crMaximo){
+                enemigos.add(candidato);
                 xpRestante-= candidato.getXp();
             }
         }

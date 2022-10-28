@@ -1,8 +1,8 @@
 public class GeneradorEncuentros {
     int dificultad, numeroJugadores,nivelJugadores;
-    int crMaximoEncuentro;
+    long crMaximoEncuentro;
 
-    public GeneradorEncuentros(int dificultad, int numeroJugadores, int nivelJugadores, int crMaximoEncuentro) {
+    public GeneradorEncuentros(int dificultad, int numeroJugadores, int nivelJugadores, long crMaximoEncuentro) {
         this.dificultad = dificultad;
         this.numeroJugadores = numeroJugadores;
         this.nivelJugadores = nivelJugadores;
@@ -12,7 +12,7 @@ public class GeneradorEncuentros {
     public Encuentro generarEncuentro(){
 
         //Se calculan los enemigos
-        CalculadorEnemigos calcEnem = new CalculadorEnemigos(dificultad,numeroJugadores,nivelJugadores);
+        CalculadorEnemigos calcEnem = new CalculadorEnemigos(dificultad,numeroJugadores,nivelJugadores,crMaximoEncuentro);
         ListaEnemigos enemigos =  calcEnem.calc();
 
         CalculadorRecompensas calcRec = new CalculadorRecompensas(crMaximoEncuentro);

@@ -7,7 +7,9 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import javax.crypto.spec.PSource;
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -16,12 +18,14 @@ public class Main {
     static ListaRecompensas recompensas = new ListaRecompensas(true);
     static ListaEnemigos enemigos = new ListaEnemigos(true);
 
+    static ListadoPersonajes personajes = new ListadoPersonajes(true);
+
     public static void main(String[] args) throws InterruptedException {
 
         System.out.println("--HOLA--");
         System.out.println("Bienvenido al generador de encuentros de Jon Maneiro García para D&D(Dungeons and Dragons)");
-        System.out.println("Este generador generará encuentros aleatorios para tus partidas, no será muy util en casos reales,");
-        System.out.println("pero ha sido divertido de programar.");
+        System.out.println("Este generador generará encuentros aleatorios para tus partidas. ");
+        System.out.println("No será muy util en casos reales, pero ha sido divertido de programar.");
         System.out.println("A continuacion habrá una serie de pasos a seguir, dependiendo de lo que quieras hacer.");
         System.out.println("Como detalle, si introduces 0, el numero, en cualquiera de los menus, se terminará el programa.");
         System.out.println("(Los de introduccion de datos no cuentan)");
@@ -39,19 +43,37 @@ public class Main {
                     menuEncuentros = menuEncuentros();
                     switch(menuEncuentros){
                         case 1://Generar encuentro
-
+                                escribirEncuentroAXML(generacionDeEncuentro());
                             break;
 
                         case 2://Visualizar Encuentros
-
+                            try {
+                                presentarEncuentros(leerEncuentrosDeXML());
+                            } catch (FileNotFoundException e) {
+                                System.out.println("Ha ocurrido un error inesperado, por favor cierra el programa y" +
+                                        "vuelvelo a intentar");
+                                //throw new RuntimeException(e);
+                            }
                             break;
 
                         case 3://Añadir Enemigo
-
+                            try {
+                                insertarEnemigo();
+                            } catch (IOException e) {
+                                System.out.println("Ha ocurrido un error inesperado, por favor, cierra el programa y " +
+                                        "vuelvelo a intentar");
+                                //throw new RuntimeException(e);
+                            }
                             break;
 
                         case 4://Añadir Recompensa
-
+                            try {
+                                insertarRecompensa();
+                            } catch (IOException e) {
+                                System.out.println("Ha ocurrido un error inesperado, por favor, cierra el programa y " +
+                                        "vuelvelo a intentar");
+                                //throw new RuntimeException(e);
+                            }
                             break;
 
                         case 0://Salir
@@ -64,15 +86,15 @@ public class Main {
                     menuPersonajes = menuPersonajes();
                     switch (menuPersonajes){
                         case 1://Crear Personaje
-
+                            crearPersonaje();
                             break;
 
                         case 2://Listar Personajes
-
+                            personajes.listarPersonajes();
                             break;
 
-                        case 3://Subir de nivel Personaje WIP
-
+                        case 3://Subir de nivel Personaje
+                            subirNivel();
                             break;
 
                         case 0:
@@ -93,6 +115,8 @@ public class Main {
             }
         }
         System.out.println("--¡Suerte en tus aventuras!--");
+        System.out.println("Si quieres saber más sobre D&D dejame recomendarte 5etools");
+        System.out.println("https://5e.tools");
         System.out.println("..Cerrando programa..");
     }
 
@@ -179,6 +203,296 @@ public class Main {
             return false;
         }
     }
+    public static boolean isLong(String check){
+        try{
+            Long.parseLong(check);
+            return true;
+        }catch(NumberFormatException e){
+            return false;
+        }
+    }
+    public static boolean yesNo(){
+        Scanner sc = new Scanner(System.in);
+        String check = "";
+        boolean resp = false;
+        boolean correcto = false;
+        while(!correcto) {
+            check = sc.nextLine();
+            if(check.toUpperCase() == "Y"){
+                resp = true;
+                correcto = true;
+            }else if(check.toUpperCase() == "N"){
+                resp = false;
+                correcto = true;
+            }else{
+                System.out.println("Parece que no has introducido una opcion valida, vuelve a intentarlo");
+            }
+        }
+
+        return resp;
+    }
+    private static String obtenerStringCompleto(String texto, int longitud) {
+        String modif = texto;
+        if (modif.length() < longitud) {
+            while (modif.length() < longitud) {
+                modif = modif + " ";
+            }
+        } else if (modif.length() > longitud) {
+            modif = modif.substring(0, (longitud - 1));
+        }
+
+        return modif;
+    }
+
+    //_------------------------------------------------------------------------------------------------------------_
+
+    public static void subirNivel(){
+
+        Scanner sc = new Scanner(System.in);
+        String check = "";
+        boolean correcto = false;
+        int id = 0;
+
+        System.out.println("Introduce el id del personaje al que quieres subirle el nivel");
+        while(!correcto){
+            System.out.println("Introduce la vida maxima actual del personaje");
+            check = sc.nextLine();
+            if(isInt(check)){
+                boolean temp = false;
+                id = Integer.parseInt(check);
+                for(Personaje pj: personajes.getPersonajes()){
+                    if(pj.getId() == id){
+                        correcto = true;
+                        temp = true;
+                        break;
+                    }else {
+                        temp = false;
+                    }
+                }
+                if(temp == false){
+                    System.out.println("Parece que el personaje que buscabas no existe");
+                }
+            }else{
+                System.out.println("Parece que no has introducido un numero, prueba otra vez");
+            }
+        }
+
+        if(correcto){
+            personajes.subirNivel(id);
+        }
+
+    }
+    public static void crearPersonaje(){
+
+        Scanner sc = new Scanner(System.in);
+        String check = "";
+        boolean correcto = false;
+
+        String nombre;//Max 50
+        String clase;//Max 50
+        String raza;//Max 50
+        int hitDie = 0;
+        int nivel = 0;
+        int vida = 0;
+        int Str;
+        int Dex;
+        int Con;
+        int Int;
+        int Wis;
+        int Cha;
+
+
+        System.out.println("Introduce el nombre del Personaje(Max 50 caracteres, el texto se cortará)");
+        nombre = sc.nextLine();
+        System.out.println("Introduce la clase del Personaje(Max 50 caracteres)");
+        clase = sc.nextLine();
+        System.out.println("Introduce la raza del Personaje(Max 50 caracteres)");
+        raza = sc.nextLine();
+
+        while(!correcto){
+            System.out.println("Introduce el dado de golpe que usa tu pj(6,8,10,12):");
+            check = sc.nextLine();
+            if(isInt(check)){
+                int temp = Integer.parseInt(check);
+                if(temp == 6 || temp == 8 || temp == 10 || temp == 12 ){
+                    hitDie = temp;
+                    correcto = true;
+                }else {
+                    System.out.println("Parece que no has introducido ningun numero esperado");
+                    System.out.println("¿Deseas continuar con el dado elegido?(Y/N)");
+                    boolean si = yesNo();
+                    if(si){
+                        hitDie = temp;
+                        correcto = true;
+                    }else{
+                        correcto = false;
+                    }
+                }
+            }else{
+                System.out.println("Parece que no has introducido un numero, prueba de nuevo");
+                correcto = false;
+            }
+        }
+        correcto = false;
+        while(!correcto){
+            System.out.println("Introduce el nivel del personaje(Entre 1 y 20):");
+            check = sc.nextLine();
+            if(isInt(check)){
+                int temp = Integer.parseInt(check);
+                if(temp > 0 && temp <= 20){
+                    nivel = temp;
+                    correcto = true;
+                }else {
+                    System.out.println("El nivel que has introducido no es posible");
+                    correcto = false;
+                }
+            }else{
+                System.out.println("Parece que no has introducido un numero, prueba de nuevo");
+                correcto = false;
+            }
+        }
+
+        correcto = false;
+        while(!correcto){
+            System.out.println("Introduce la vida maxima actual del personaje");
+            check = sc.nextLine();
+            if(isInt(check)){
+                vida = Integer.parseInt(check);
+                correcto = true;
+            }else{
+                System.out.println("Parece que no has introducido un numero, prueba otra vez");
+            }
+        }
+
+        System.out.println("Ahora tocan las estadisticas. Como minimo pueden ser 0, 10 es lo que rondaria una persona estandar" +
+                "\n y el maximo normalmente es 20" +
+                "\n (Lo que no quiere decir que no puedan ir más allá con magia)");
+        Str = recibirEstadistica("Fuerza");
+        Dex = recibirEstadistica("Destreza");
+        Con = recibirEstadistica("Constitucion");
+        Int = recibirEstadistica("Inteligencia");
+        Wis = recibirEstadistica("Sabiduria");
+        Cha = recibirEstadistica("Carisma");
+
+        Personaje pj = new Personaje(nombre,nivel,clase,hitDie,raza,Str,Dex,Con,Int,Wis,Cha,vida);
+        try {
+            personajes.insertarNuevoPersonaje(pj);
+        } catch (IOException e) {
+            System.out.println("Ha ocurrido una excepcion inesperada, por favor, cierra el programa e intentalo de nuevo");
+            //throw new RuntimeException(e);
+        }
+    }
+
+    public static int recibirEstadistica(String nombre){
+        Scanner sc = new Scanner(System.in);
+        String check = "";
+        int stat = 0;
+        boolean correcto = false;
+        while(!correcto){
+            System.out.println("Introduce : " + nombre);
+            check = sc.nextLine();
+            if(isInt(check)){
+                int temp = Integer.parseInt(check);
+                if(temp > -1){
+                    correcto = true;
+                    stat = temp;
+                }else{
+                    System.out.println("Las estadisticas no pueden ser menores a 0");
+                }
+            }else{
+                System.out.println("Parece que lo que has introducido no es un numero, vuelve a intentarlo");
+            }
+        }
+
+        return stat;
+    }
+
+    public static Encuentro generacionDeEncuentro(){
+
+        Scanner sc = new Scanner(System.in);
+        String check =  "";
+        boolean correcto = false;
+
+        int numeroJugadores = 0;
+        int nivelJugadores = 0;
+        int dificultad = 0;
+        long crMaximoEncuentro = 0;
+
+        while(!correcto){
+            System.out.println("Introduce el numero de jugadores(La media suele rondar los 4):");
+            check = sc.nextLine();
+            if(isInt(check)){
+                numeroJugadores = Integer.parseInt(check);
+                correcto = true;
+            }else{
+                System.out.println("Parece que no has introducido un numero, prueba de nuevo");
+                correcto = false;
+            }
+        }
+        correcto = false;
+        while(!correcto){
+            System.out.println("Introduce el nivel de los jugadores(Entre 1 y 20):");
+            check = sc.nextLine();
+            if(isInt(check)){
+                int temp = Integer.parseInt(check);
+                if(temp > 0 && temp <= 20){
+                nivelJugadores = temp;
+                correcto = true;
+                }else {
+                    System.out.println("El nivel que has introducido no es posible");
+                    correcto = false;
+                }
+            }else{
+                System.out.println("Parece que no has introducido un numero, prueba de nuevo");
+                correcto = false;
+            }
+        }
+        correcto = false;
+        while(!correcto){
+            System.out.println("Introduce la dificultad del encuentro(1-facil,2-normal,3-dificil,4-mortal):");
+            check = sc.nextLine();
+            if(isInt(check)){
+                int temp = Integer.parseInt(check);
+                if(temp <= 4 &&  temp >= 1) {
+                    dificultad = temp;
+                    correcto = true;
+                }else{
+                    System.out.println("El numero introducido no es valido");
+                    correcto = false;
+                }
+            }else{
+                System.out.println("Parece que no has introducido un numero, prueba de nuevo");
+                correcto = false;
+            }
+        }
+
+        correcto = false;
+        while(!correcto){
+            System.out.println("Introduce el cr maximo de los monstruos para el encuentro:");
+            System.out.println("(Los libros dicen que 4 personajes de nivel x pueden contra 1 monstruo de nivel x)");
+            check = sc.nextLine();
+            if(isLong(check)){
+                long temp = Long.parseLong(check);
+                if(temp > -0.0009){
+                    crMaximoEncuentro = temp;
+                    correcto = true;
+                }else{
+                    System.out.println("Parece que el numero que has introducido es demasiado pequeño");
+                    correcto = false;
+                }
+            }else{
+                System.out.println("Parece que no has introducido un numero, prueba de nuevo");
+                correcto = false;
+            }
+        }
+
+        GeneradorEncuentros gen = new GeneradorEncuentros(dificultad,numeroJugadores,nivelJugadores,crMaximoEncuentro);
+
+        return gen.generarEncuentro();
+
+    }
+
+
 
     public static void escribirEncuentroAXML(Encuentro encuentro) {
         ListaEncuentros encuentros = new ListaEncuentros();
@@ -193,7 +507,7 @@ public class Main {
             xstream.alias("Recompensas", ListaRecompensas.class);
             xstream.alias("recompensa", Recompensa.class);
 
-            xstream.addImplicitCollection(ListaEncuentros.class, "lista");
+            //xstream.addImplicitCollection(ListaEncuentros.class, "lista");
 
             xstream.toXML(encuentros, new FileOutputStream("Encuentros.xml"));
 
@@ -204,7 +518,7 @@ public class Main {
     }
 
     public static ListaEncuentros leerEncuentrosDeXML() throws FileNotFoundException {
-        ListaEncuentros encuentros;
+
 
         XStream xstream = new XStream();
         xstream.addPermission(AnyTypePermission.ANY);
@@ -214,16 +528,68 @@ public class Main {
         xstream.alias("enemigo", Enemigo.class);
         xstream.alias("Recompensas", ListaRecompensas.class);
         xstream.alias("recompensa", Recompensa.class);
-        xstream.addImplicitCollection(ListaEncuentros.class, "lista");
+        //xstream.addImplicitCollection(ListaEncuentros.class, "lista");
 
         FileInputStream fichero = new FileInputStream("Encuentros.xml");
-        encuentros = (ListaEncuentros) xstream.fromXML(fichero);
+        ListaEncuentros encuentros  = (ListaEncuentros) xstream.fromXML(fichero);
+
 
         //Leer esto con un Iterator
         return encuentros;
     }
 
-    public void insertarRecompensa() throws IOException {
+    public static void presentarEncuentros(ListaEncuentros listaEncuentros){
+
+        List<Encuentro> encuentros = new ArrayList<Encuentro>();
+        encuentros = listaEncuentros.getEncuentros();
+
+        Iterator iteradorEncuentros = encuentros.listIterator();
+
+        while(iteradorEncuentros.hasNext()){
+            Encuentro encounter = (Encuentro) iteradorEncuentros.next();
+            System.out.println("Numero de Jugadores: " + encounter.getNumeroPJ());
+            System.out.println("Nivel de Jugadores: " + encounter.getNivelPJ());
+
+            ListaEnemigos lE = new ListaEnemigos();
+            List<Enemigo> enemigos = new ArrayList<Enemigo>();
+            lE = encounter.getEnemigos();
+            enemigos = lE.getEnemigos();
+
+            Iterator iteradorEnemigos = enemigos.listIterator();
+            System.out.println("Lista de enemigos");
+            while(iteradorEnemigos.hasNext()){
+                System.out.println("-----------------------------");
+                Enemigo enemy = (Enemigo) iteradorEnemigos.next();
+                System.out.println("Id: " + enemy.getId());
+                System.out.println("Nombre: " + enemy.getNombre());
+                System.out.println("Tipo: " + enemy.getTipo());
+                System.out.println("Cr: " + enemy.getCr());
+                System.out.println("Xp: " + enemy.getXp());
+            }
+
+            ListaRecompensas lR = new ListaRecompensas();
+            List<Recompensa> recompensas = new ArrayList<>();
+            lR = encounter.getRecompensas();
+            recompensas = lR.getRecompensas();
+            System.out.println("Recompensas");
+            System.out.println("-------------------");
+            System.out.println("Oro otorgado:" + lR.getOroEntregable());
+            Iterator iteradorRecompensas = recompensas.listIterator();
+            while(iteradorRecompensas.hasNext()){
+                System.out.println("-----------------------------");
+                Recompensa recompensa = (Recompensa) iteradorRecompensas.next();
+                System.out.println("Id: " + recompensa.getId());
+                System.out.println("Nombre: " + recompensa.getNombre());
+                System.out.println("Tipo: " + recompensa.getTipo());
+                System.out.println("Rareza: " + recompensa.getRareza());
+
+            }
+        }
+
+    }
+
+
+    public static  void insertarRecompensa() throws IOException {
         /**
          * Id, int de 4 bytes
          * Nombre, cadena de 50 caracteres , 100 bytes
@@ -277,7 +643,7 @@ public class Main {
 
     }
 
-    public void insertarEnemigo() throws IOException {
+    public static  void insertarEnemigo() throws IOException {
         /**
          * Id, int de 4 bytes
          * Nombre, cadena de 50 caracteres, 100 Bytes
@@ -352,20 +718,9 @@ public class Main {
      * @param longitud
      * @return
      */
-    private String obtenerStringCompleto(String texto, int longitud) {
-        String modif = texto;
-        if (modif.length() < longitud) {
-            while (modif.length() < longitud) {
-                modif = modif + " ";
-            }
-        } else if (modif.length() > longitud) {
-            modif = modif.substring(0, (longitud - 1));
-        }
 
-        return modif;
-    }
     /**
-     * TODO generarXML de Personajes
+     *
      */
 
 

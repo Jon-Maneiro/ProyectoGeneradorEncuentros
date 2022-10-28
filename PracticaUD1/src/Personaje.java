@@ -22,7 +22,7 @@ public class Personaje implements Serializable {
     private int vida;
 
 
-    public Personaje(String nombre, int nivel, String clase, int hitDie, String raza, int str, int dex, int con, int anInt, int wis, int cha, int vida) {
+    public Personaje(String nombre, int nivel, String clase, int hitDie, String raza, int str, int dex, int con, int Int, int wis, int cha, int vida) {
         this.nombre = nombre;
         this.nivel = nivel;
         this.clase = clase;
@@ -31,7 +31,7 @@ public class Personaje implements Serializable {
         Str = str;
         Dex = dex;
         Con = con;
-        Int = anInt;
+        Int = Int;
         Wis = wis;
         Cha = cha;
         this.vida = vida;
